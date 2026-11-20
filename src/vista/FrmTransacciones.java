@@ -17,6 +17,8 @@ import servicio.TransaccionServicio;
 
 public class FrmTransacciones extends javax.swing.JFrame {
     
+    private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(FrmTransacciones.class);
+    
     private final TransaccionServicio transaccionServicio;
     private DefaultTableModel modeloTabla;
     private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -488,7 +490,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 }
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            logger.error("Error al aplicar LookAndFeel en FrmTransacciones", ex);
         }
         //</editor-fold>
 

@@ -19,6 +19,8 @@ import servicio.ReporteServicio;
 
 public class FrmReportes extends javax.swing.JFrame {
     
+    private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(FrmReportes.class);
+    
     private final ReporteServicio reporteServicio;
     private final NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.US);
     private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -361,7 +363,7 @@ public class FrmReportes extends javax.swing.JFrame {
                 }
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            logger.error("Error al aplicar LookAndFeel en FrmReportes", ex);
         }
         //</editor-fold>
 
