@@ -8,8 +8,13 @@ public class Movimiento {
     private TipoMovimiento tipoMovimiento;
     private BigDecimal monto;
     private LocalDateTime fechaHora;
+    private String descripcion;
     private Integer idCuentaOrigen; 
     private Integer idCuentaDestino;
+    
+    // para mostrar el número de cuenta en tablas y los reportes
+    private String numeroCuentaOrigen;
+    private String numeroCuentaDestino;
 
     public Movimiento() {
     }
@@ -54,6 +59,14 @@ public class Movimiento {
     public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public Integer getIdCuentaOrigen() {
         return idCuentaOrigen;
@@ -71,5 +84,19 @@ public class Movimiento {
         this.idCuentaDestino = idCuentaDestino;
     }
     
-      
+    public String getNumeroCuentaOrigen() {
+        return numeroCuentaOrigen;
+    }
+
+    public void setNumeroCuentaOrigen(String numeroCuentaOrigen) {
+        this.numeroCuentaOrigen = numeroCuentaOrigen;
+    }
+
+    public String getNumeroCuentaDestino() {
+        return numeroCuentaDestino;
+    }
+
+    public void setNumeroCuentaDestino(String numeroCuentaDestino) {
+        this.numeroCuentaDestino = numeroCuentaDestino;
+    }  
 }

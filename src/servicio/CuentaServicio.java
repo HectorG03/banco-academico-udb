@@ -2,17 +2,22 @@ package servicio;
 
 import dao.ClienteDAO;
 import dao.CuentaDAO;
-import modelo.Cliente;
-import modelo.Cuenta;
-import modelo.EstadoCliente;
-
+import excepciones.BancoException;
+import excepciones.CuentaNoEncontradaException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import modelo.Cliente;
+import modelo.Cuenta;
+import modelo.EstadoCliente;
+import modelo.EstadoCuenta;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CuentaServicio {
     
+    private static final Logger logger = LogManager.getLogger(CuentaServicio.class);
     private final CuentaDAO cuentaDAO;
     private final ClienteDAO clienteDAO;
     
@@ -66,17 +71,20 @@ public class CuentaServicio {
     public String registrar(Cuenta cuenta) throws SQLException {
         String errorValidacion = validar(cuenta);
         if (errorValidacion != null) {
+            logger.warn("Apertura de cuenta rechazada: {}", errorValidacion);
             return errorValidacion;
         }
         
         // verificar que cliente exista en la bd
         Cliente clienteAsociado = clienteDAO.buscarPorCodigo(cuenta.getCodigoCliente());
         if (clienteAsociado == null) {
+            logger.warn("Apertura de cuenta rechazada: cliente {} no existe.", cuenta.getCodigoCliente());
             return "El cliente especificado no existe en el sistema.";
         }
         
         // verificar que cliente esté activo
         if (clienteAsociado.getEstado() != EstadoCliente.ACTIVO) {
+            logger.warn("Apertura de cuenta rechazada: cliente {} en estado {}.", clienteAsociado.getDui(), clienteAsociado.getEstado());
             return "No se puede abrir una cuenta a un cliente que se encuentra Inactivo o Bloqueado.";
         }
         
@@ -86,7 +94,18 @@ public class CuentaServicio {
         }
         
         cuentaDAO.insertar(cuenta);
+        logger.info("Nueva cuenta creada | N°: {} | Tipo: {} | Saldo inicial: ${} | Cliente ID: {}",
+                cuenta.getNumeroCuenta(), cuenta.getTipoCuenta(), cuenta.getSaldo(), cuenta.getCodigoCliente());
         return null;
+    }
+    
+    public void cambiarEstadoCuenta(String numeroCuenta, EstadoCuenta nuevoEstado) throws BancoException, SQLException {
+        Cuenta cuenta = cuentaDAO.buscarPorNumero(numeroCuenta);
+        if (cuenta == null) {
+            throw new CuentaNoEncontradaException("No se encontró la cuenta " + numeroCuenta);
+        }
+        cuentaDAO.cambiarEstado(cuenta.getIdCuenta(), nuevoEstado);
+        logger.info("Estado de cuenta {} actualizado a {}", numeroCuenta, nuevoEstado);
     }
     
     // listar cuentas de cliente especifico

@@ -1,13 +1,15 @@
 package vista;
 
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -35,13 +37,12 @@ public class FrmCuentas extends javax.swing.JPanel {
         // mostrar la info del cliente en los labels
         lblCliente.setText("Cuenta de: " + cliente.getNombre() + " (DUI: " + cliente.getDui() + ")");
         lblEstadoCliente.setText("Estado del cliente: " + cliente.getEstado());
-    
-        // fecha actual automáticamente 
-        lblFecha.setText(java.time.LocalDate.now().toString());
-    
+        lblFecha.setText(LocalDate.now().toString());
+      
         // cargar el Tipo de Cuenta
         cargarComboTipos();
-    
+        cargarComboEstadosCuenta();
+        
         // cargar la tabla de cuentas del cliente
         configurarTablaCuentas();
         cargarTablaCuentas();
@@ -51,26 +52,43 @@ public class FrmCuentas extends javax.swing.JPanel {
         
         // conexión de botones
         btnCrearCuenta.addActionListener(e -> crearCuenta());
+        btnCambiarEstadoCuenta.addActionListener(e -> cambiarEstadoCuentaSeleccionada());
         btnCerrar.addActionListener(e -> cerrarVentana());
-    
+        
+        tblCuentas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = tblCuentas.getSelectedRow();
+                if (fila >= 0) {
+                    Object estadoActual = modeloTablaCuentas.getValueAt(fila, 3);
+                    cbEstadoCuenta.setSelectedItem(estadoActual);
+                }
+            }
+        });
     }
     
     private void cargarComboTipos() {
         cbTipo.removeAllItems();
-        javax.swing.DefaultComboBoxModel<TipoCuenta> modelo
-                = new javax.swing.DefaultComboBoxModel<>(TipoCuenta.values());
+        DefaultComboBoxModel<TipoCuenta> modelo = new DefaultComboBoxModel<>(TipoCuenta.values());
         cbTipo.setModel((javax.swing.ComboBoxModel) modelo);
     }
-
+    
+    private void cargarComboEstadosCuenta() {
+        cbEstadoCuenta.removeAllItems();
+        DefaultComboBoxModel<EstadoCuenta> modelo = new DefaultComboBoxModel<>(EstadoCuenta.values());
+        cbEstadoCuenta.setModel((javax.swing.ComboBoxModel) modelo);
+    }
+    
     private void configurarTablaCuentas() {
         modeloTablaCuentas = new DefaultTableModel(
-                new Object[]{"Número de Cuenta", "Tipo", "Saldo Inicial", "Estado", "Fecha Apertura"}, 0
+                new Object[]{"Número de Cuenta", "Tipo", "Saldo", "Estado", "Fecha Apertura"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // no edición manual
+                return false;
             }
         };
+        
         tblCuentas.setModel(modeloTablaCuentas);
         
         // encabezado fijo: no se puede arrastrar ni cambiar de tamaño
@@ -123,7 +141,8 @@ public class FrmCuentas extends javax.swing.JPanel {
                 });
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar las cuentas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(this, "Error al cargar las cuentas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            mostrarError("Error al cargar las cuentas: " + e.getMessage());
         }
     } // fin cargarTablaCuentas
     
@@ -142,8 +161,8 @@ public class FrmCuentas extends javax.swing.JPanel {
         try {
             BigDecimal saldo;
             try {
-                saldo = new BigDecimal(txtSaldoInicial.getText().trim())
-                        .setScale(2, RoundingMode.HALF_UP);
+                saldo = new BigDecimal(txtSaldoInicial.getText().trim()).setScale(2, RoundingMode.HALF_UP);
+               
             } catch (NumberFormatException ex) {
                 mostrarError("Saldo inválido. Ingrese un número, por ejemplo 100.50");
                 return;
@@ -171,6 +190,24 @@ public class FrmCuentas extends javax.swing.JPanel {
             mostrarNuevoNumero();
         } catch (Exception e) {
             mostrarError("Ocurrió un error inesperado al crear la cuenta: " + e.getMessage());
+        }
+    }
+    
+    private void cambiarEstadoCuentaSeleccionada() {
+        int fila = tblCuentas.getSelectedRow();
+        if (fila < 0) {
+            mostrarError("Seleccione una cuenta de la tabla para cambiar su estado.");
+            return;
+        }
+        try {
+            String numeroCuenta = modeloTablaCuentas.getValueAt(fila, 0).toString();
+            EstadoCuenta nuevoEstado = (EstadoCuenta) cbEstadoCuenta.getSelectedItem();
+
+            cuentaServicio.cambiarEstadoCuenta(numeroCuenta, nuevoEstado);
+            mostrarInfo("La cuenta " + numeroCuenta + " ahora está " + nuevoEstado + ".");
+            cargarTablaCuentas();
+        } catch (Exception e) {
+            mostrarError("Error al cambiar estado de la cuenta: " + e.getMessage());
         }
     }
     
@@ -214,6 +251,9 @@ public class FrmCuentas extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCuentas = new javax.swing.JTable();
         lblNumeroCuenta = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        cbEstadoCuenta = new javax.swing.JComboBox<>();
+        btnCambiarEstadoCuenta = new javax.swing.JToggleButton();
 
         jLabel3.setText("Nueva cuenta");
 
@@ -258,6 +298,12 @@ public class FrmCuentas extends javax.swing.JPanel {
 
         lblNumeroCuenta.setPreferredSize(new java.awt.Dimension(22, 16));
 
+        jLabel1.setText("Estado Cuenta");
+
+        cbEstadoCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnCambiarEstadoCuenta.setText("Cambiar Estado");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -265,12 +311,6 @@ public class FrmCuentas extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(btnCrearCuenta)
-                        .addGap(84, 84, 84)
-                        .addComponent(btnCerrar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -289,7 +329,21 @@ public class FrmCuentas extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(lblCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblEstadoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCrearCuenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbEstadoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCambiarEstadoCuenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCerrar)
+                        .addGap(19, 19, 19))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
@@ -317,13 +371,16 @@ public class FrmCuentas extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(txtSaldoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrearCuenta)
-                    .addComponent(btnCerrar))
+                    .addComponent(btnCerrar)
+                    .addComponent(jLabel1)
+                    .addComponent(cbEstadoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCambiarEstadoCuenta))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
                 .addContainerGap())
@@ -340,9 +397,12 @@ public class FrmCuentas extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnCambiarEstadoCuenta;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnCrearCuenta;
+    private javax.swing.JComboBox<String> cbEstadoCuenta;
     private javax.swing.JComboBox<String> cbTipo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
