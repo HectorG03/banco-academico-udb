@@ -41,8 +41,11 @@ public class FrmTransacciones extends javax.swing.JFrame {
         btnMostrarTodos.addActionListener(e -> cargarHistorialCompleto());
         btnCerrar.addActionListener(e -> dispose());
     }
+    
     private void cargarComboOperaciones() {
-        cmbTipoOperacion.setModel(new DefaultComboBoxModel<>(TipoMovimiento.values()));
+        cmbTipoOperacion.removeAllItems();
+        DefaultComboBoxModel<TipoMovimiento> modelo = new DefaultComboBoxModel<>(TipoMovimiento.values());
+        cmbTipoOperacion.setModel((javax.swing.ComboBoxModel) modelo);
     }
     
     private void configurarTabla() {

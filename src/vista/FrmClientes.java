@@ -581,6 +581,9 @@ public class FrmClientes extends javax.swing.JFrame {
     
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
         // TODO add your handling code here:
+        FrmTransacciones frm = new FrmTransacciones();
+        frm.setLocationRelativeTo(this);
+        frm.setVisible(true);
     }//GEN-LAST:event_btnTransaccionesActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
