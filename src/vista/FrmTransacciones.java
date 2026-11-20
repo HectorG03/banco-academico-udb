@@ -244,18 +244,18 @@ public class FrmTransacciones extends javax.swing.JFrame {
         txtCuentaDestino = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        btnEjecutar = new javax.swing.JToggleButton();
-        btnLimpiar = new javax.swing.JToggleButton();
         jLabel6 = new javax.swing.JLabel();
         txtBuscarIdMovimiento = new javax.swing.JTextField();
-        btnBuscarMovimiento = new javax.swing.JToggleButton();
         jLabel7 = new javax.swing.JLabel();
         txtFiltrarCuenta = new javax.swing.JTextField();
-        btnFiltrarCuenta = new javax.swing.JToggleButton();
-        btnMostrarTodos = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMovimientos = new javax.swing.JTable();
-        btnCerrar = new javax.swing.JToggleButton();
+        btnEjecutar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnBuscarMovimiento = new javax.swing.JButton();
+        btnFiltrarCuenta = new javax.swing.JButton();
+        btnMostrarTodos = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -266,6 +266,11 @@ public class FrmTransacciones extends javax.swing.JFrame {
         jLabel1.setText("Tipo de Operación: ");
 
         cmbTipoOperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbTipoOperacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoOperacionActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Cuenta Origen: ");
 
@@ -275,19 +280,9 @@ public class FrmTransacciones extends javax.swing.JFrame {
 
         jLabel5.setText("Descripción: ");
 
-        btnEjecutar.setText("Realizar Operación");
-
-        btnLimpiar.setText("Limpiar");
-
         jLabel6.setText("Consultar ID Movimiento: ");
 
-        btnBuscarMovimiento.setText("Consultar ID");
-
         jLabel7.setText("Filtrar por Cuenta: ");
-
-        btnFiltrarCuenta.setText("Filtrar Cuenta");
-
-        btnMostrarTodos.setText("Ver Todos");
 
         tblMovimientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -302,36 +297,52 @@ public class FrmTransacciones extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblMovimientos);
 
+        btnEjecutar.setText("Realizar Operación");
+        btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEjecutarActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        btnBuscarMovimiento.setText("Consultar ID");
+        btnBuscarMovimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarMovimientoActionPerformed(evt);
+            }
+        });
+
+        btnFiltrarCuenta.setText("Filtrar Cuenta");
+        btnFiltrarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarCuentaActionPerformed(evt);
+            }
+        });
+
+        btnMostrarTodos.setText("Ver Todos");
+        btnMostrarTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarTodosActionPerformed(evt);
+            }
+        });
+
         btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(btnEjecutar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarIdMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscarMovimiento)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFiltrarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnFiltrarCuenta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnMostrarTodos))
-                    .addComponent(btnLimpiar))
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,18 +363,40 @@ public class FrmTransacciones extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtCuentaDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                .addComponent(txtCuentaDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                                 .addGap(213, 213, 213))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnEjecutar)
+                                .addGap(44, 44, 44)
+                                .addComponent(btnLimpiar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBuscarIdMovimiento)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscarMovimiento)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFiltrarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFiltrarCuenta)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMostrarTodos)
+                        .addGap(23, 23, 23))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrar)
-                .addContainerGap())
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,20 +425,48 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtBuscarIdMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarMovimiento)
                     .addComponent(jLabel7)
                     .addComponent(txtFiltrarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarMovimiento)
                     .addComponent(btnFiltrarCuenta)
                     .addComponent(btnMostrarTodos))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrar)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmbTipoOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoOperacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbTipoOperacionActionPerformed
+
+    private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEjecutarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnBuscarMovimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMovimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarMovimientoActionPerformed
+
+    private void btnFiltrarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFiltrarCuentaActionPerformed
+
+    private void btnMostrarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMostrarTodosActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -433,12 +494,12 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnBuscarMovimiento;
-    private javax.swing.JToggleButton btnCerrar;
-    private javax.swing.JToggleButton btnEjecutar;
-    private javax.swing.JToggleButton btnFiltrarCuenta;
-    private javax.swing.JToggleButton btnLimpiar;
-    private javax.swing.JToggleButton btnMostrarTodos;
+    private javax.swing.JButton btnBuscarMovimiento;
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnEjecutar;
+    private javax.swing.JButton btnFiltrarCuenta;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnMostrarTodos;
     private javax.swing.JComboBox<String> cmbTipoOperacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

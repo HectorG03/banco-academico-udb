@@ -253,7 +253,7 @@ public class FrmCuentas extends javax.swing.JPanel {
         lblNumeroCuenta = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         cbEstadoCuenta = new javax.swing.JComboBox<>();
-        btnCambiarEstadoCuenta = new javax.swing.JToggleButton();
+        btnCambiarEstadoCuenta = new javax.swing.JButton();
 
         jLabel3.setText("Nueva cuenta");
 
@@ -298,7 +298,7 @@ public class FrmCuentas extends javax.swing.JPanel {
 
         lblNumeroCuenta.setPreferredSize(new java.awt.Dimension(22, 16));
 
-        jLabel1.setText("Estado Cuenta");
+        jLabel1.setText("Estado Cuenta: ");
 
         cbEstadoCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -337,7 +337,7 @@ public class FrmCuentas extends javax.swing.JPanel {
                         .addComponent(btnCrearCuenta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbEstadoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCambiarEstadoCuenta)
@@ -346,7 +346,7 @@ public class FrmCuentas extends javax.swing.JPanel {
                         .addGap(19, 19, 19))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -397,7 +397,7 @@ public class FrmCuentas extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnCambiarEstadoCuenta;
+    private javax.swing.JButton btnCambiarEstadoCuenta;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JComboBox<String> cbEstadoCuenta;
