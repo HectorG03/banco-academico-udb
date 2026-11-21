@@ -31,6 +31,7 @@ public class FrmCuentas extends javax.swing.JPanel {
     
     public FrmCuentas(Cliente cliente) {
         initComponents();
+        setPreferredSize(new java.awt.Dimension(680, 560));
         this.clienteActual = cliente;
         this.cuentaServicio = new CuentaServicio();
         
@@ -90,11 +91,15 @@ public class FrmCuentas extends javax.swing.JPanel {
         };
         
         tblCuentas.setModel(modeloTablaCuentas);
-        
-        // encabezado fijo: no se puede arrastrar ni cambiar de tamaño
         tblCuentas.getTableHeader().setReorderingAllowed(false);
-        tblCuentas.getTableHeader().setResizingAllowed(false);
-        tblCuentas.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        tblCuentas.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        // Anchos proporcionales para que no se recorte ningún dato
+        tblCuentas.getColumnModel().getColumn(0).setPreferredWidth(145); // Número de Cuenta
+        tblCuentas.getColumnModel().getColumn(1).setPreferredWidth(110); // Tipo (PLAZO_FIJO)
+        tblCuentas.getColumnModel().getColumn(2).setPreferredWidth(100); // Saldo
+        tblCuentas.getColumnModel().getColumn(3).setPreferredWidth(90);  // Estado
+        tblCuentas.getColumnModel().getColumn(4).setPreferredWidth(110); // Fecha Apertura
 
         // columna Saldo (índice 2) con formato de moneda: $1,000,000.00
         DefaultTableCellRenderer renderMoneda = new DefaultTableCellRenderer() {
@@ -339,14 +344,14 @@ public class FrmCuentas extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbEstadoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnCambiarEstadoCuenta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCerrar)
-                        .addGap(19, 19, 19))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

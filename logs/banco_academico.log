@@ -35,3 +35,8 @@
 2026-11-20 17:53:32 [INFO] ReporteServicio - Generando reporte: Cuentas Activas.
 2026-11-20 17:53:32 [INFO] ReporteServicio - Consultando totales generales (Depositado, Retirado, Transferido).
 2026-11-20 17:53:32 [INFO] ReporteServicio - Consultando totales generales (Depositado, Retirado, Transferido).
+2026-11-20 17:55:57 [INFO] ReporteServicio - Generando reporte: Cuentas Activas.
+2026-11-20 17:55:57 [INFO] ReporteServicio - Consultando totales generales (Depositado, Retirado, Transferido).
+2026-11-20 17:55:57 [INFO] ReporteServicio - Consultando totales generales (Depositado, Retirado, Transferido).
+2026-11-20 17:55:59 [INFO] ReporteServicio - Consultando totales generales (Depositado, Retirado, Transferido).
+2026-11-20 18:00:00 [INFO] TransaccionServicio - TRANSFERENCIA exitosa | ID Mov: 4 | Origen: 100000000001 -> Destino: 100000000002 | Monto: $300.00
